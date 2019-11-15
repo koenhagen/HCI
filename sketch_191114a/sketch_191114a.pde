@@ -1,56 +1,85 @@
-float x = 10;
-float y = 10;
-int z = 0;
+int x = 10;
+int y = 10;
+int diameter = 15;
 Table table;
-String soort;
-int i;
+
+Species[] icons;
 
 void setup() {
-  size(640, 360);
-  background(51);
+  size(800, 600);
   table = loadTable("Test.csv", "header");
   noStroke();
-  i = 0;
+    
+  icons = new Species[table.getRowCount()];   
+  
+  for (int i = 0; i < table.getRowCount(); i++){
+    TableRow soortTable = table.getRow(i);
+      
+    
+    icons[i] = new Species(x, y, soortTable.getString("Nederlandse naam"),soortTable.getString("Klasse"));
+    
+    //drawTarget(x, y, diameter, soortTable);
+    
+    //Locatie volgende icoontje
+    x = x+diameter;
+    if (x>800){
+      y= y+diameter;
+      x=10;
+    }
+  
+  }
 }
 
 void draw() {
-  
-  line(mouseX, 20, mouseX, 80);
-  if (i<table.getRowCount()){
-   
-  //for (i = 0; i < table.getRowCount(); i++){
-    TableRow soortTable = table.getRow(i);    
-      
-    i++;
-    drawTarget(x, y, 10, soortTable);
-    
-    //Locatie volgende icoontje
-    x = x+10;
-    if (x>630){
-      y= y+10;
-      x=10;
-    }
-    
+  background(51);
+  for (int i=0; i < icons.length; i++) {
+    icons[i].drawTarget();
   }
   
 }
 
-void drawTarget(float xloc, float yloc, int size, TableRow soortTable) {
+public class Species{
+  int positionX;
+  int positionY;
+  String name;
+  String taxonomy;
+  boolean mouseOver;
   
-  //Kies kleur/icoontje
-  soort = soortTable.getString("Klasse");
-  if (soort.equals("Insect")){
-    fill(255,0,0);
-  } else if ( soort.equals("Amphibian")){
-    fill(0,255,0);
+  Species(int positionX_, int positionY_, String name_, String taxonomy_) {
+  positionX = positionX_;
+  positionY = positionY_;
+  name = name_;
+  taxonomy = taxonomy_;
   }
   
-  if (mouseX > x-5 && mouseX < x+5 && 
-    mouseY > y-5 && mouseY < y+5) {
-      println("test!!");
-      text(soortTable.getString("Nederlandse naam"),x+10,y-10);
-  }
+  
+  void drawTarget() {
+    stroke(0);
+    strokeWeight(2);
+    
+    //Kies kleur/icoontje
+    if (taxonomy.equals("Insect")){
+      fill(255,0,0);
+    } else if ( taxonomy.equals("Amphibian")){
+      fill(0,255,0);
+    }
+    
+    mouseOver=positionX-diameter/2<=mouseX&&mouseX<=positionX+diameter/2&&
+                positionY-diameter/2<=mouseY&&mouseY<=positionY+diameter/2;
+       
+          
+      //Plaats icoontje
+      ellipse(positionX, positionY, diameter, diameter);
       
-    //Plaats icoontje
-    ellipse(xloc, yloc, size, size);
+               
+     if (mouseOver){
+        fill(0,100,100);
+        rect(positionX+diameter-5,positionY+diameter,textWidth(name)+diameter,diameter,3);
+        fill(255,255,255);
+        textAlign(LEFT,TOP);
+        text(name,positionX+diameter,positionY+diameter);
+        
+     }
+  }
+
 }
