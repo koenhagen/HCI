@@ -62,6 +62,8 @@ public class Species{
       fill(255,0,0);
     } else if ( taxonomy.equals("Amphibian")){
       fill(0,255,0);
+    } else if (taxonomy.equals("Amphibian")){
+      fill (0,0,255);
     }
     
     mouseOver=positionX-diameter/2<=mouseX&&mouseX<=positionX+diameter/2&&
