@@ -57,7 +57,10 @@ void draw() {
 void keyPressed(){
   if (key >= 'A' && key <= 'Z' || key >= 'a' && key <= 'z') {
     searchEntry = searchEntry+key;
-    println(searchEntry);
+  } else if (key == BACKSPACE && searchEntry != ""){
+    if (!searchEntry.equals("") ){
+      searchEntry = searchEntry.substring(0, searchEntry.length() - 1);       
+    }
   }
 }
 
