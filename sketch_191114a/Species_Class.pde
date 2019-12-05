@@ -98,10 +98,37 @@ public class Species{
             angles[5] = nietBedreigd*tot;
         }
       }
+      
+      //legenda voor chart
+      fill(#FFFFFF);
+      text("Verdwenen: " + (double) Math.ceil(angles[0]/3.6*10)/10 + "%\nErnstig bedreigd: " + 
+      (double) Math.ceil(angles[1]/3.6*10)/10 + "%\nBedreigd: " + (double) Math.ceil(angles[2]/3.6*10)/10 + "%\nKwetsbaar: " + 
+      (double) Math.ceil(angles[3]/3.6*10)/10 + "%\nGevoelig: " + (double) Math.ceil(angles[4]/3.6*10)/10 + "%\nNiet bedreigd: " + 
+      (double) Math.ceil(angles[5]/3.6*10)/10 + "%",width-150,300);
+      
+      noStroke();
+      fill (#761901);
+      rect(width-170,300,15,15);
+      
+      fill (#B82601);
+      rect(width-170,320,15,15);
+      
+      fill (#C44D2F);
+      rect(width-170,340,15,15);
+      
+      fill (#D1745D);
+      rect(width-170,360,15,15);
+      
+      fill (#E5B0A2);
+      rect(width-170,380,15,15);
+      
+      fill (#74F927);
+      rect(width-170,400,15,15);
+      
        //PieChart
       textSize(34);
       fill(#FFFFFF);
-      text(taxonomy + " \n(" + totBedreigd+ ")", width-400, 150, width-100,500);
+      text(taxonomy + " (" + totBedreigd+ ")", width-400, 150, 300,500);
        
       float lastAngle = 0;
       for (int i = 0; i < angles.length; i++) {
@@ -126,9 +153,11 @@ public class Species{
             break;
         }
   
-        arc(width/5*4, height/2, 250, 250, lastAngle, lastAngle+radians(angles[i]));
+        arc(width/4*3, height/2, 250, 250, lastAngle, lastAngle+radians(angles[i]));  
         lastAngle += radians(angles[i]);
       }
+      
+      
        
        //DESCRIPTION
        println(description);
