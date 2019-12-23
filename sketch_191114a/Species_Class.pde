@@ -27,10 +27,6 @@ public class Species{
     return scientificName;
   }
   
-  void mousePressed(){
-    println(taxonomy);
-  }
-  
   void drawTarget(int positionX, int positionY) {
     stroke(0);
     strokeWeight(2);
@@ -160,10 +156,8 @@ public class Species{
       
        
        //DESCRIPTION
-       println(description);
        fill(#FFFFFF);
        textSize(10);
-       println(width+ "disp" + displayWidth);
        text(description, width-450,height-200, 400, 200);
        
        
