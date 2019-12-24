@@ -23,7 +23,7 @@ Species[] icons;
 
 void setup() {
   size(displayWidth, displayHeight);
-  table = loadTable("Test.csv", "header");
+  table = loadTable("Test3.csv", "header");
   noStroke();
   icons = new Species[table.getRowCount()];   
   
@@ -31,35 +31,102 @@ void setup() {
   
   for (int i = 0; i < table.getRowCount(); i++){
     TableRow soortTable = table.getRow(i);
-    icons[i] = new Species(soortTable.getString("Nederlandse naam"),soortTable.getString("Klasse"),soortTable.getString("Wetenschappelijke naam"),table.getRow(i).getString("Beschrijving"));  
+    icons[i] = new Species(soortTable.getString("Nederlandse naam"),soortTable.getString("Klasse"),soortTable.getString("Wetenschappelijke naam"),table.getRow(i).getString("Status"),soortTable.getString("Trend"));  
   }
 }
 
 void draw() {
   background(51);
-  x = 200;
-  y = height-80;
+  x = width/8;
+  y = height/10*9;
   
   stroke(0);
   strokeWeight(2);
   
-  //Buttons
-  fill(255,255,255);
-  ellipse(50, 630, 15, 15);
-  if (mousePressed && mouseX >= 50-7.5 && mouseX <= 50+7.5 && 
-      mouseY >= 630-7.5 && mouseY <= 630+7.5) {
-    filter = "";
+  //Status picker
+  fill(255,255,255);  
+   stroke(51); 
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+  mouseY >= 530 && mouseY <= 530+15) {
+    if (mousePressed ){
+      filter = "";
+    }
+    stroke(153);
   }
-  ellipse(50, 650, 15, 15);
-  if (mousePressed && mouseX >= 50-7.5 && mouseX <= 50+7.5 && 
-      mouseY >= 650-7.5 && mouseY <= 650+7.5) {
-    filter = "steenvlieg";
+  rect(50, 530, 15, 15);
+  stroke(51); 
+  
+  stroke(51); 
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+  mouseY >= 550 && mouseY <= 550+15) {
+    if (mousePressed ){
+      filter = "onbekend";
+    }
+    stroke(153);
   }
-  ellipse(50, 670, 15, 15);
-  if (mousePressed && mouseX >= 50-7.5 && mouseX <= 50+7.5 && 
-      mouseY >= 670-7.5 && mouseY <= 670+7.5) {
-    filter = "paard";
+  rect(50, 550, 15, 15);
+  stroke(51); 
+  
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+  mouseY >= 570 && mouseY <= 570+15) {
+    if (mousePressed ){
+      filter = "maximaal afgenomen";
+    }
+    stroke(153);
   }
+  rect(50, 570, 15, 15);
+  stroke(51);
+  
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+  mouseY >= 590 && mouseY <= 590+15) {
+    if (mousePressed ){
+      filter = "zeer sterk afgenomen";
+    }
+    stroke(153);
+  }
+  rect(50, 590, 15, 15);
+  stroke(51);
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+  mouseY >= 610 && mouseY <= 610+15) {
+    if (mousePressed ){
+      filter = "sterk afgenomen";
+    }
+    stroke(153);
+  }
+  rect(50, 610, 15, 15);
+  stroke(51);
+  
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+      mouseY >= 630 && mouseY <= 630+15) {
+    if (mousePressed ){
+      filter = "matig afgenomen";
+    }
+    stroke(153);
+  }
+  rect(50, 630, 15, 15);
+  stroke(51);
+  
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+      mouseY >= 650 && mouseY <= 650+15) {
+    if (mousePressed){
+      filter = "niet afgenomen";
+    }
+    stroke(153);
+  }
+  rect(50, 650, 15, 15);
+  stroke(51);
+  
+  if (mouseX >= 50 && mouseX <= 50+15 && 
+      mouseY >= 670 && mouseY <= 670+15) {
+        if (mousePressed ){
+          filter = "stabiel of toegenomen";
+        }
+        stroke(153);
+  }
+  rect(50, 670, 15, 15);
+  stroke(51);
+  
+
   
   //Search bar
   textAlign(LEFT,TOP);
@@ -67,6 +134,7 @@ void draw() {
   image(search_icon,70,15,40,40);
   if (mousePressed && mouseX >= 70 && mouseX <= 140+width-248 && 
       mouseY >= 15 && mouseY <= 15+40){
+        stroke(153);
   }
   fill(100,100,100,100);
   rect(140,15,width-248,40);
@@ -77,18 +145,16 @@ void draw() {
     println(searchEntry);
   if (searchEntry.equals("") && filter.equals("")){
     pushMatrix();
-    translate(190,710);
+    translate(150,750);
     rotate(PI/-4);
-    textAlign(RIGHT);
     text("Amfibieen", 0,0);
-    text("Vogels", 20,20);
-    text("Vissen", 80,80);
+    text("V", 20,0);
     popMatrix();
   }
     
   //Icons
   for (int i=0; i < icons.length; i++) {
-    if( icons[i].getTaxonomy().toLowerCase().contains(filter)){
+    if( icons[i].getTrend().toLowerCase().equals(filter) || filter.equals("")){
       if(icons[i].getName().toLowerCase().contains(searchEntry.toLowerCase()) || icons[i].getScientificName().toLowerCase().contains(searchEntry.toLowerCase()) || icons[i].getTaxonomy().toLowerCase().contains(searchEntry.toLowerCase()) ){
         icons[i].drawTarget(x,y);
        
@@ -96,7 +162,7 @@ void draw() {
         y = y-diameter-2;
         if (y<80 && icons[i].getTaxonomy().equals(icons[i+1].getTaxonomy())){
           x= x+diameter+2;
-          y = height-80;
+          y = height/10*9;
           
         }
        
@@ -105,7 +171,7 @@ void draw() {
         if (i+1 < icons.length && !icons[i].getTaxonomy().equals(icons[i+1].getTaxonomy())){
    
           x= x+diameter+2;
-          y = height-80;
+          y = height/10*9;
         }
   }
 }
